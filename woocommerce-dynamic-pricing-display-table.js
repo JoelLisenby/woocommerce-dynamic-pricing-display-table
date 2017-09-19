@@ -21,14 +21,16 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 
 	dt.updateDisplayPrice = function() {
 		var qty = parseInt( $quantity_field[0].value );
-		for( var key in dt.prices ) {
-			if( qty >= dt.prices[key].from && qty <= dt.prices[key].to ) {
-				var discounted_price = dt.prices[key].price;
-			} else if( qty >= dt.prices[key].from && dt.prices[key].to === null ) {
-				var discounted_price = dt.prices[key].price;
+		if(qty) {
+			for( var key in dt.prices ) {
+				if( qty >= dt.prices[key].from && qty <= dt.prices[key].to ) {
+					var discounted_price = dt.prices[key].price;
+				} else if( qty >= dt.prices[key].from && dt.prices[key].to === null ) {
+					var discounted_price = dt.prices[key].price;
+				}
 			}
+			jQuery( 'ins .woocommerce-Price-amount.amount' ).html( '<span class="woocommerce-Price-currencySymbol">$</span>'+ discounted_price );
 		}
-		jQuery( 'ins .woocommerce-Price-amount.amount' ).html( '<span class="woocommerce-Price-currencySymbol">$</span>'+ discounted_price );
 	};
 	
 	dt.updatePricingTable = function( variation ) {
