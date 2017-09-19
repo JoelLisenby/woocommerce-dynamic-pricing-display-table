@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.pricebreaks {
+  position: relative;
+}
+.pricebreak {
+  display: inline-block;
+  padding: 5px 10px;
+  text-align: center;
+}
+.pricebreak .qty {
+  font-weight: bold;
+}
