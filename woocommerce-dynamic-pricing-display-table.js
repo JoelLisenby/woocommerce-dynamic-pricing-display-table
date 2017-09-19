@@ -1,4 +1,4 @@
-var WoocommerceDynamicPricingDisplayTable = function() {
+var WooCommerceDynamicPricingDisplayTable = function() {
 	var dt = this;
 	dt.variation = null;
 	dt.prices = [];
@@ -46,7 +46,7 @@ var WoocommerceDynamicPricingDisplayTable = function() {
 			appendElement = true;
 		}
 
-		dt.prices.push( { 'from':1, 'to':1, 'price':variation.display_price.toFixed( 2 ) } );
+		dt.prices.push( { 'from': 1, 'to': 1, 'price': variation.display_price.toFixed( 2 ) } );
 
 		var html = '<div class="pricebreak"><div class="qty">1</div><div class="price">$'+ variation.display_price.toFixed( 2 ) +'</div></div>';
 		for( var key in pricing.rules[0] ) {
@@ -97,4 +97,4 @@ var WoocommerceDynamicPricingDisplayTable = function() {
   dt.init();
 }
 
-new WoocommerceDynamicPricingDisplayTable();
+new WooCommerceDynamicPricingDisplayTable();
