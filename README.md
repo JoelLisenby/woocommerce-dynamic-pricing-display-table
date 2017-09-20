@@ -1,4 +1,5 @@
-***WooCommerce Dynamic Pricing Display Table***
+WooCommerce Dynamic Pricing Display Table
+===
 
 * Requires *WooCommerce* and the official *WooCommerce Dynamic Pricing* plugin
 * Displays a quantity discount pricing table instead of price range below product title.
