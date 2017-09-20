@@ -48,9 +48,11 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 			appendElement = true;
 		}
 
-		dt.prices.push( { 'from': 1, 'to': 1, 'price': variation.display_price.toFixed( 2 ) } );
+		console.log(wcdpdt_wc_price_num_decimals);
 
-		var html = '<div class="pricebreak"><div class="qty">1</div><div class="price">$'+ variation.display_price.toFixed( 2 ) +'</div></div>';
+		dt.prices.push( { 'from': 1, 'to': 1, 'price': variation.display_price.toFixed( wcdpdt_wc_price_num_decimals ) } );
+
+		var html = '<div class="pricebreak"><div class="qty">1</div><div class="price">$'+ variation.display_price.toFixed( wcdpdt_wc_price_num_decimals ) +'</div></div>';
 		for( var key in pricing.rules[0] ) {
 			var rule = pricing.rules[0][key];
 			var from = rule.from ? parseInt( rule.from ) : null;
@@ -59,15 +61,18 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 			var price = 0;
 			switch(rule.type) {
 				case 'percentage_discount':
-				price = dt.ceil(variation.display_price - ( variation.display_price * ( amount / 100 ) ), -2 ).toFixed( 2 );
+				price = dt.ceil(variation.display_price - ( variation.display_price * ( amount / 100 ) ), -2 );
 				break;
 				case 'price_discount':
-				price = ( variation.display_price - amount ).toFixed( 2 );
+				price = ( variation.display_price - amount );
 				break;
 				case 'fixed_price':
-				price = amount.toFixed( 2 );
+				price = amount;
 				break;
 			}
+
+			price = price.toFixed( wcdpdt_wc_price_num_decimals );
+			
 			html += '<div class="pricebreak"><div class="qty">'+ rule.from +'</div><div class="price">$'+ price +'</div></div>';
 			dt.prices.push( { 'from': from, 'to': to, 'price': price } );
 		}

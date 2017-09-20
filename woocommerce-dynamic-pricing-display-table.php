@@ -24,6 +24,7 @@ class WooCommerceDynamicPricingDisplayTable {
 			wp_register_style( 'wcdpdt', plugin_dir_url( __FILE__ ) . '/woocommerce-dynamic-pricing-display-table.css', null, $this->version, false );
 			wp_register_script( 'wcdpdt', plugin_dir_url( __FILE__ ) . '/woocommerce-dynamic-pricing-display-table.js', array( 'jquery' ), $this->version, true);
 			wp_localize_script( 'wcdpdt', 'wcdpdt_wc_product_pricing', $this->get_product_pricing() );
+			wp_localize_script( 'wcdpdt', 'wcdpdt_wc_price_num_decimals', get_option( 'woocommerce_price_num_decimals' ) );
 			wp_enqueue_script( 'wcdpdt' );
 			wp_enqueue_style( 'wcdpdt' );
 		}
