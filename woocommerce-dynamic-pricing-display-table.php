@@ -31,17 +31,49 @@ class WooCommerceDynamicPricingDisplayTable {
 	}
 
 	public function get_product_pricing() {
-		$product = get_post_custom();
-		$rules = unserialize( $product['_pricing_rules'][0] );
+		$has_rules = false;
 		$pricing_rules = array();
-		foreach($rules as $rule) {
-			$pricing_rules[] = $rule['rules'];
+		$product = get_post_custom();
+		
+		// Product pricing rules
+		$rules = unserialize( $product['_pricing_rules'][0] );
+		
+		// Global pricing rules
+		if(empty($rules)) {
+			$product_cats = get_the_terms( $post->ID, 'product_cat' );
+			$product_cats_ids = array();
+			foreach($product_cats as $cat) {
+				$product_cats_ids[] = $cat->term_id;
+			}
+			
+			$rules = get_option( '_a_category_pricing_rules' );
+			foreach($rules as $rule) {
+				switch($rule['collector']['type']) {
+					case 'cat_product':
+					foreach($rule['collector']['args']['cats'] as $arg) {
+						if(in_array($arg, $product_cats_ids)) {
+							$has_rules = true;
+						}
+					}
+					break;
+				}
+			}
+		} else {
+			$has_rules = true;
 		}
-		$pricing = array(
-			'prices' => $product['_price'],
-			'rules' => $pricing_rules
-		);
-		return $pricing;
+		
+		if($has_rules) {
+			foreach($rules as $rule) {
+				$pricing_rules[] = $rule['rules'];
+			}
+			$pricing = array(
+				'prices' => $product['_price'],
+				'rules' => $pricing_rules
+			);
+			return $pricing;
+		} else {
+			return $global_rules;
+		}
 	}
 }
 

@@ -29,7 +29,9 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 					var discounted_price = dt.prices[key].price;
 				}
 			}
-			jQuery( 'ins .woocommerce-Price-amount.amount' ).html( '<span class="woocommerce-Price-currencySymbol">$</span>'+ discounted_price );
+			if(discounted_price) {
+				jQuery( 'ins .woocommerce-Price-amount.amount' ).html( '<span class="woocommerce-Price-currencySymbol">$</span>'+ discounted_price );
+			}
 		}
 	};
 	
@@ -48,41 +50,41 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 			appendElement = true;
 		}
 
-		console.log(wcdpdt_wc_price_num_decimals);
-
 		dt.prices.push( { 'from': 1, 'to': 1, 'price': variation.display_price.toFixed( wcdpdt_wc_price_num_decimals ) } );
 
 		var html = '<div class="pricebreak"><div class="qty">1</div><div class="price">$'+ variation.display_price.toFixed( wcdpdt_wc_price_num_decimals ) +'</div></div>';
-		for( var key in pricing.rules[0] ) {
-			var rule = pricing.rules[0][key];
-			var from = rule.from ? parseInt( rule.from ) : null;
-			var to = rule.to ? parseInt( rule.to ) : null;
-			var amount = rule.amount ? parseFloat( rule.amount ) : null;
-			var price = 0;
-			switch(rule.type) {
-				case 'percentage_discount':
-				price = dt.ceil(variation.display_price - ( variation.display_price * ( amount / 100 ) ), -2 );
-				break;
-				case 'price_discount':
-				price = ( variation.display_price - amount );
-				break;
-				case 'fixed_price':
-				price = amount;
-				break;
+		if(pricing.rules) {
+			for( var key in pricing.rules[0] ) {
+				var rule = pricing.rules[0][key];
+				var from = rule.from ? parseInt( rule.from ) : null;
+				var to = rule.to ? parseInt( rule.to ) : null;
+				var amount = rule.amount ? parseFloat( rule.amount ) : null;
+				var price = 0;
+				switch(rule.type) {
+					case 'percentage_discount':
+					price = dt.ceil(variation.display_price - ( variation.display_price * ( amount / 100 ) ), -2 );
+					break;
+					case 'price_discount':
+					price = ( variation.display_price - amount );
+					break;
+					case 'fixed_price':
+					price = amount;
+					break;
+				}
+
+				price = price.toFixed( wcdpdt_wc_price_num_decimals );
+				
+				html += '<div class="pricebreak"><div class="qty">'+ rule.from +'</div><div class="price">$'+ price +'</div></div>';
+				dt.prices.push( { 'from': from, 'to': to, 'price': price } );
+			}
+			element.innerHTML = html;
+			
+			if( appendElement ) {
+				target.appendChild( element );
 			}
 
-			price = price.toFixed( wcdpdt_wc_price_num_decimals );
-			
-			html += '<div class="pricebreak"><div class="qty">'+ rule.from +'</div><div class="price">$'+ price +'</div></div>';
-			dt.prices.push( { 'from': from, 'to': to, 'price': price } );
+			dt.updateDisplayPrice();
 		}
-		element.innerHTML = html;
-		
-		if( appendElement ) {
-			target.appendChild( element );
-		}
-
-		dt.updateDisplayPrice();
 
 	};
 
