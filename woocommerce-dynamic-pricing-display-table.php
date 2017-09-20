@@ -50,6 +50,7 @@ class WooCommerceDynamicPricingDisplayTable {
 			foreach($rules as $rule) {
 				switch($rule['collector']['type']) {
 					case 'cat_product':
+					case 'cat':
 					foreach($rule['collector']['args']['cats'] as $arg) {
 						if(in_array($arg, $product_cats_ids)) {
 							$has_rules = true;
