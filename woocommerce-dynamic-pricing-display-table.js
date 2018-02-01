@@ -30,7 +30,7 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 				}
 			}
 			if(discounted_price) {
-				jQuery( 'ins .woocommerce-Price-amount.amount' ).html( '<span class="woocommerce-Price-currencySymbol">$</span>'+ discounted_price );
+				jQuery( 'ins .woocommerce-Price-amount.amount' ).html( '<span class="woocommerce-Price-currencySymbol">$</span>'+ discounted_price +' each');
 			}
 		}
 	};
