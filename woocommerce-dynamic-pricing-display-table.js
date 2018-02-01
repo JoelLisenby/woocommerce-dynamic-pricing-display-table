@@ -73,9 +73,10 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 				}
 
 				price = price.toFixed( wcdpdt_wc_price_num_decimals );
-				
-				html += '<div class="pricebreak"><div class="qty">'+ rule.from +'</div><div class="price">$'+ price +'</div></div>';
-				dt.prices.push( { 'from': from, 'to': to, 'price': price } );
+				if(price > 0 && rule.from > 0) {
+					html += '<div class="pricebreak"><div class="qty">'+ rule.from +'</div><div class="price">$'+ price +'</div></div>';
+					dt.prices.push( { 'from': from, 'to': to, 'price': price } );
+				}
 			}
 			element.innerHTML = html;
 			

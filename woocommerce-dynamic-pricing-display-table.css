@@ -14,7 +14,6 @@
 
 @media (max-width: 768px) {
   .pricebreak {
-    padding: 5px 3px;
-    font-size: 0.8em;
+    padding: 5px;
   }
 }
