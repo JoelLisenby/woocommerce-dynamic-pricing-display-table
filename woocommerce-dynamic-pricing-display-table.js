@@ -52,7 +52,8 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 
 		dt.prices.push( { 'from': 1, 'to': 1, 'price': variation.display_price.toFixed( wcdpdt_wc_price_num_decimals ) } );
 
-		var html = '<div class="pricebreak"><div class="qty">1</div><div class="price">$'+ variation.display_price.toFixed( wcdpdt_wc_price_num_decimals ) +'</div></div>';
+		var html = '<div class="pricebreak"><div class="heading">Qty</div><div class="heading">Price</div><div class="heading">Sale</div></div></div>';
+		html += '<div class="pricebreak"><div class="qty">1</div><div class="price">$'+ variation.display_regular_price.toFixed( wcdpdt_wc_price_num_decimals ) +'</div><div class="sale_price">$'+ variation.display_price.toFixed( wcdpdt_wc_price_num_decimals ) +'</div></div>';
 		if(pricing.rules) {
 			for( var key in pricing.rules[0] ) {
 				var rule = pricing.rules[0][key];
@@ -63,19 +64,23 @@ var WooCommerceDynamicPricingDisplayTable = function() {
 				switch(rule.type) {
 					case 'percentage_discount':
 					price = dt.ceil(variation.display_price - ( variation.display_price * ( amount / 100 ) ), -2 );
+					sale_price = dt.ceil(variation.display_regular_price - ( variation.display_regular_price * ( amount / 100 ) ), -2 );
 					break;
 					case 'price_discount':
 					price = ( variation.display_price - amount );
+					sale_price = ( variation.display_regular_price - amount );
 					break;
 					case 'fixed_price':
 					price = amount;
+					sale_price = amount;
 					break;
 				}
 
 				price = price.toFixed( wcdpdt_wc_price_num_decimals );
+				sale_price = sale_price.toFixed( wcdpdt_wc_price_num_decimals );
 				if(price > 0 && rule.from > 0) {
-					html += '<div class="pricebreak"><div class="qty">'+ rule.from +'</div><div class="price">$'+ price +'</div></div>';
-					dt.prices.push( { 'from': from, 'to': to, 'price': price } );
+					html += '<div class="pricebreak"><div class="qty">'+ rule.from +'</div><div class="price">$'+ sale_price +'</div><div class="sale_price">$'+ price +'</div></div>';
+					dt.prices.push( { 'from': from, 'to': to, 'price': price, 'sale_price': sale_price } );
 				}
 			}
 			element.innerHTML = html;

@@ -11,9 +11,17 @@
 .pricebreak .qty {
   font-weight: bold;
 }
+.pricebreak .price {
+  text-decoration: line-through;
+  color: #c5c5c5;
+}
+.pricebreak .sale_price {
+  color: #d61d1d;
+}
 
 @media (max-width: 768px) {
   .pricebreak {
     padding: 5px;
+    font-size: 0.9em;
   }
 }
